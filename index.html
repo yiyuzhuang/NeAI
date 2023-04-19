@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html xmlns:float="http://www.w3.org/1999/xhtml"><head lang="en"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>NeAI</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/codemirror.min.css">
+    <link rel="stylesheet" href="css/app.css">
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/codemirror.min.js"></script>
+    <script src="js/clipboard.min.js"></script>
+    <script src="js/video_comparison.js"></script>
+    <script src="js/app.js"></script>
+</head>
+
+<body>
+    <div class="container" id="header" style="text-align: center; margin: auto;">
+        <div class="row" id="title-row" style="max-width: 100%; margin: 0 auto; display: inline-block">
+            <h2 class="col-md-12 text-center" id="title">
+                <b>NeAI</b>: A Pre-convoluted Representation for <br> Plug-and-Play Neural Ambient Illumination<br>
+            </h2>
+        </div>
+        <div class="row" id="author-row" style="margin:0 auto;">
+            <div class="col-md-12 text-center" style="display: table; margin:0 auto">
+                <table class="author-table" id="author-table">
+                    <tr>
+
+                        <td>
+                            <p >
+                              Yiyu Zhuang<sup>1*</sup>, Qi Zhang<sup>2*</sup>, Xuan Wang<sup>2</sup>, Hao Zhu<sup>1</sup>,
+                                <br> Ying Feng<sup>2</sup>, Xiaoyu Li<sup>2</sup>, Ying Shan<sup>2</sup>, Xun Cao<sup>1</sup>
+                            </p>
+                            <br><sup>1</sup> Nanjing University, Nanjing, China   <sup>2</sup> Tencent AI Lab, Shenzhen, China
+                        </td>
+
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('author-row').style.maxWidth = document.getElementById("title-row").clientWidth + 'px';
+    </script>
+    <div class="container" id="main">
+        <div class="row">
+                <div class="col-sm-6 col-sm-offset-3 text-center">
+                    <ul class="nav nav-pills nav-justified">
+                        <li>
+                            <a href="https://arxiv.org/abs/2304.08757">
+                            <img src="img/icon_paper.png" height="60px">
+                                <h4><strong>Paper</strong></h4>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="" target="_blank">
+                            <image src="img/icon_code.png" height="60px">
+                                <h4><strong>Code(Coming Soon)</strong></h4>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+        </div>
+
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="video-compare-container" id="materialsDiv">
+                    <video class="video" id="materials" loop playsinline autoPlay muted src="video_neai/garden_sphere.mp4" onplay="resizeAndPlay(this)"></video>
+
+                    <canvas height=0 class="videoMerge" id="materialsMerge"></canvas>
+                </div>
+			</div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Abstract
+                </h3>
+                <p class="text-justify">
+     Recent advances in implicit neural representation have demonstrated the ability to recover detailed geometry and material from multi-view images. However, the use of simplified lighting models such as environment maps to represent non-distant illumination, or using a network to fit indirect light modeling without a solid basis, can lead to an undesirable decomposition between lighting and material. To address this, we propose a fully differentiable framework named neural ambient illumination (NeAI) that uses Neural Radiance Fields (NeRF) as a lighting model to handle complex lighting in a physically based way. Together with integral lobe encoding for roughness-adaptive specular lobe and leveraging the pre-convoluted background for accurate decomposition, the proposed method represents a significant step towards integrating physically based rendering into the NeRF representation. The experiments demonstrate the superior performance of novel-view rendering compared to previous works, and the capability to re-render objects under arbitrary NeRF-style environments opens up exciting possibilities for bridging the gap between virtual and real-world scenes.  The code and data will be released upon publication.
+               </div>
+        </div>
+
+        <image src="img/Fig_pipeline.png" class="img-responsive" alt="overview" width="70%"  style="margin:auto;"></image>
+
+
+        <br>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Problem Statement
+                </h3>
+                    <div class="center">
+<!--                        <video  width="90%" playsinline autoplay loop muted >-->
+                        <video  width="90%" playsinline poster controls loop muted >
+                        <source src="video_neai/motivation.mp4" type="video/mp4"  />
+                    </video>
+                    </div>
+                <br>
+                <div class="text-justify">
+
+                    Previous approaches that model the environment as an omnidirectional radiance map  didn't take the position of 3D environments into account, therefore they are unable to handle ambient occlusion and indirect lighting realistic.
+                    To address these problems, we therefore make the following contributions in this paper:
+                    <ul>
+                        <li>Neural Ambient Illumination (NeAI) expresses the radiance field of incoming rays such that treats each sample in the 3D environment as a light emitter.</li>
+                        <li>Integrated Lobe Encoding (ILE) enables incoming rays within roughness-adaptive specular lobe to be compactly featurized.</li>
+                        <li>Multiscale pre-convoluted representation for background assists in the decomposition of object materials and ambient illumination.</li>
+                    </ul>
+                    <br>
+                    Please refer to our paper for more implementation details.
+                    <br><br>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Illustration of our method
+                </h3>
+                <div class="text-justify">
+                    Through our defined ILE and pre-convoluted representaion, we can efficiently compute the integral within the specular lobe  by doing a single ray tracing along the reflected direction.
+                    <br>
+                    We show that the derived environment map can be gradually blurred with the increasing roughness <i>(on the left)</i>, and the further application of material roughness editing  <i>(on the right)</i>.
+                </div>
+                <div class="center" >
+<!--                     <video width="90%" playsinline autoplay loop muted>-->
+<!--                     <video width="90%" playsinline poster controls autoplay loop muted>-->
+                     <video width="90%" playsinline poster controls loop muted>
+                        <source src="video_neai/roughness.mp4" type="video/mp4" />
+                    </video>
+                </div>
+
+                 <div class="text-justify">
+                   Our model decomposes the roughness and diffuse color from ambient illumination that enables editing.                <br>
+                   We edit the car’s diffuse color without affecting its glossy paint’s specular reflection.
+                 </div>
+                 <div class="center" >
+<!--                     <video width="60%" playsinline autoplay loop muted>-->
+                     <video width="60%" playsinline poster controls loop muted>
+                        <source src="video_neai/video_car_albedo.mp4" type="video/mp4" />
+                    </video>
+                </div>
+			</div>
+        </div>
+
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Results of Plug and Play
+                </h3>
+
+                <div class="text-justify">
+                 Our rendering pipeline produces realistic renderings and detailed specular reflectance when place the decomposed object into a pre-trained NeRF-like environment.
+                 <br>
+                We show the results of putting our material sphere into the "Garden" scene at the top, and another case that put the car into the scene "Stump" is shown below:
+                </div>
+                <div class="video-compare-container" style="width: 70%">
+                    <video class="video" id="toycar" loop playsinline controls muted src="video_neai/stump_car.mp4" onplay="resizeAndPlay(this)"></video>
+                    <canvas height=0 class="videoMerge" id="toycarMerge"></canvas>
+                </div>
+                <br>
+                <div class="text-justify">
+                   The specular reflection smoothly changes according to the relative position of the object.
+                 </div>
+<!--                <div class="center" style="width: 60%">-->
+<!--                    <video class="video"   loop playsinline muted src="video_neai/translation.mp4" onplay="resizeAndPlay(this)"></video>-->
+<!--                    <canvas height=0 id="gold"></canvas>-->
+<!--                </div>-->
+                 <div class="center" >
+<!--                     <video width="60%" playsinline autoplay loop muted>-->
+                     <video width="70%" playsinline poster controls loop muted>
+                        <source src="video_neai/translation.mp4" type="video/mp4"  />
+                    </video>
+                </div>
+
+                 <div class="text-justify">
+                   The real-world object can be also moved into a NeRF-style environment. We show the results of novel-view synthesis (left) and "plug and play" (right).
+                     Note that in "novel-view synthesis", the background of the object is taken directly from the ground-truth image.
+                 </div>
+                 <div class="video-compare-container" style="width: 70%">
+                    <video class="video"  id="cornchos" loop playsinline controls muted  src="video_neai/video_cornchos.mp4" onplay="resizeAndPlay(this)"> </video> \
+<!--                    controls loop muted-->
+                    <canvas height=0 class="videoMerge" id="cornchosMerge"></canvas>
+                </div>
+                <div class="video-compare-container" style="width: 70%">
+                    <video class="video"  id="cans"loop playsinline controls muted  src="video_neai/video_cans.mp4" onplay="resizeAndPlay(this)">  </video> \
+<!--                    controls loop muted-->
+                    <canvas height=0 class="videoMerge" id="cansMerge"></canvas>
+                </div>
+
+
+			</div>
+
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <h3>
+                        Citation
+                    </h3>
+                    <div class="form-group col-md-10 col-md-offset-0">
+                        <textarea id="bibtex" class="form-control" readonly>
+@article{zhuang2023neai,
+    title={NeAI: A Pre-convoluted Representation for Plug-and-Play Neural Ambient Illumination},
+    author={Yiyu Zhuang and Qi Zhang and Xuan Wang and Hao Zhu and Ying Feng and Xiaoyu Li and Ying Shan and Xun Cao},
+    journal={{arXiv preprint arXiv:2304.08757},
+    year={2023}
+}</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <h3>
+                        Acknowledgements
+                    </h3>
+                    <p class="text-justify">
+                    The website template was borrowed from <a href="http://mgharbi.com/">Michaël Gharbi</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+            <br><br><br><br>
+    </div>
+</body></html>
